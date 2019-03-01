@@ -1,17 +1,18 @@
-import app from '../app';
-import { Socket } from 'socket.io';
 import { statSync, open, write, createReadStream, createWriteStream, unlink, fstat } from 'fs';
-import {join} from 'path';
 import { generateThumb } from './file.thumbnail';
 
-let tempPath = join(__dirname, '../public/files/temp');
-let uploadPath = join(__dirname, '../public/files')
+// let tempPath = join(__dirname, '../public/files/temp');
+// let uploadPath = join(__dirname, '../public/files')
 
-export class SocketInit{
-    private io = app.io;
+export class SocketUpload{
+    private io:any;
     private files: Object = {};
+    public uploadPath: string ;
+    public thumbPath: string;
 
-    constructor(){
+    constructor(io:any){
+        this.io = io;
+
         this.io.on('connection', (socket) => {
             console.log('User connected');
     
@@ -24,14 +25,14 @@ export class SocketInit{
                 }
                 let place: number = 0;
                 try{
-                    let stat = statSync(`${uploadPath}/${fileName}`);
+                    let stat = statSync(`${this.uploadPath}/${fileName}`);
                     if(stat.isFile()){
                         this.files[fileName]['downloaded'] = stat.size;
                         place = stat.size / 524288;
                     }
                 }
-                catch(err){}
-                open(`${uploadPath}/${fileName}`, 'a', 0o755, (err, fd) => {
+                catch(err){ }
+                open(`${this.uploadPath}/${fileName}`, 'a', 0o755, (err, fd) => {
                     if(err) return console.log(err);
                     this.files[fileName]['handler'] = fd;
                     socket.emit('MORE_DATA', { place, percent: 0});
@@ -46,9 +47,9 @@ export class SocketInit{
                 if(this.files[fileName]['downloaded'] == this.files[fileName]['fileSize']){ //file fully uploaded
                     write(this.files[fileName]['handler'], this.files[fileName]['data'], null, 'Binary', (err, written) => {
                         //Thumbnail
-                        generateThumb(`${uploadPath}/${fileName}`, `${tempPath}/`)
+                        generateThumb(`${this.uploadPath}/${fileName}`, `${this.thumbPath}/`)
                         // let inStream = createReadStream(`${tempPath}/${fileName}`);
-                        // let outStream = createWriteStream(`${uploadPath}/${fileName}`);
+                        // let outStream = createWriteStream(`${this.uploadPath}/${fileName}`);
                         // inStream.pipe(outStream);
                         // inStream.on('end', ()=> {
                         //     console.log('file copied');
@@ -77,13 +78,13 @@ export class SocketInit{
             })
 
             socket.on('cancel', async (data: any)=> {
-                // console.log(data);
-                let count:number = 0, temp:any ;
+                console.log(data);
+                let count:number = 0 ;
                 try{
-                    await data.files.foreach((fileName: string) => {
-                        let stat = statSync(`${uploadPath}/${fileName}`);
+                    await data.files.forEach((fileName: string) => {
+                        let stat = statSync(`${this.uploadPath}/${fileName}`);
                         if(stat.isFile()){
-                            unlink(`${uploadPath}/${fileName}`, () => {
+                            unlink(`${this.uploadPath}/${fileName}`, () => {
                                 console.log('in --',count);
                                 count = count + 1;
                             })
@@ -92,7 +93,7 @@ export class SocketInit{
 
                     console.log('cancel done', count);
                 }
-                catch{}
+                catch(e){console.log(e)}
                 
                 socket.emit('cancel-done', { count });
             })
