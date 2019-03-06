@@ -8,8 +8,8 @@ app.io.on('connection', (socket: any) => {
     console.log('User connected');
 
     let su = new SocketUpload(socket);
-    su.uploadPath = join(__dirname, './public/files');
-    su.thumbPath = join(__dirname, './public/files/thumbnails');
+    su.uploadPath = join(__dirname, '../public/files');
+    su.thumbPath = join(__dirname, '../public/files/thumbnails');
 })
 
 

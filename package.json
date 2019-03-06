@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha mocha ./dist/testing/socket.test.js --timeout 9000",
     "build": "tsc --watch",
     "dev": "ts-node ./lib/server.ts --watch",
     "start": "nodemon ./dist/server.js",
-    "prod": "npm run build && npm run start"
+    "prod": "npm run build && npm run start",
+    "test-watch": "nodemon  --exec 'mocha ./dist/testing/socket.test.js --timeout 9000'"
   },
   "author": "",
   "license": "ISC",
@@ -27,5 +28,15 @@
     "socket.io": "^2.2.0",
     "ts-node": "^8.0.2",
     "typescript": "^3.3.3333"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
+    "@types/socket.io-client": "^1.4.32",
+    "@types/supertest": "^2.0.7",
+    "chai": "^4.2.0",
+    "mocha": "^6.0.2",
+    "socket.io-client": "^2.2.0",
+    "supertest": "^3.4.2"
   }
 }
