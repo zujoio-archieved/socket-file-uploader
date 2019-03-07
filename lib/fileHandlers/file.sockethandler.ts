@@ -1,5 +1,4 @@
 import { statSync, open, write, createReadStream, createWriteStream, unlink } from 'fs';
-import { generateThumb } from './file.thumbnail';
 
 export class SocketUpload{
     private socket:any;
