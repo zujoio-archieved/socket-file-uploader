@@ -34,7 +34,7 @@ fi
 
 # Build CPU:
 npm pack
-npm publish
+npm publish --access public
 echo "⌛ ⌛ Published ${PACKAGE_NAME} a new package to npm."
 
 # Revert GPU changes:
