@@ -1,4 +1,3 @@
-// import {} from 'supertest';
 import { connect } from 'socket.io-client';
 import { expect } from 'chai';
 import { readFile, unlink } from 'fs';
@@ -35,7 +34,6 @@ describe('read files', ()=>{
     })
 
     it('Should Upload the File',  (done) => {
-                
             socket.emit('START', { name: fileName, size: fsFile.length });
             socket.on('MORE_DATA', (data) => {
                 emit && moreData(data);
@@ -51,7 +49,6 @@ describe('read files', ()=>{
             socket.on('DONE', (data)=>{
                 console.log('Upload complete', data);
                 expect(data.thumb).to.equal(0);
-
                 unlink(resolve(__dirname, `../../public/files/${fileName}`), () =>{
                     console.log('File Deleted')
                     done();
@@ -72,7 +69,7 @@ describe('read files', ()=>{
             socket.emit('UPLOAD', { name: fileName, data: newFile})
         }
 
-        setTimeout(() => socket.emit('cancel', { files: [fileName]}), 2000);
+        setTimeout(() => socket.emit('cancel', { files: [fileName, 'nothing.png']}), 2000);
 
         socket.on('cancel-done', (data) => {
             expect(data.count).to.equal(1);
