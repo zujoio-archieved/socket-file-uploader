@@ -9,8 +9,7 @@ if [ $# -eq 0 ]
     exit
 fi
 
-PACKAGE_NAME="yolonode-js"
-DEPENDENCY_PACKAGE_BUILD="yolonode-js-build"
+PACKAGE_NAME="socket-file-uploader"
 
 # if you forget to commit
 PORCELAIN=`git status --porcelain`
@@ -38,14 +37,6 @@ npm pack
 npm publish
 echo "⌛ ⌛ Published ${PACKAGE_NAME} a new package to npm."
 
-# Build GPU:
-sed -i -e "s/${PACKAGE_NAME}/${PACKAGE_NAME}-gpu/" package.json
-sed -i -e "s/${DEPENDENCY_PACKAGE_BUILD}/${DEPENDENCY_PACKAGE_BUILD}-gpu/" package.json
-
-npm pack
-npm publish
-echo "⌛ ⌛ Published ${PACKAGE_NAME}-gpu to npm."
-
 # Revert GPU changes:
 git checkout .
 
@@ -58,6 +49,3 @@ if [ $# -ne 0 ]
     git push --tags
     rm -rf $PACKAGE_NAME-*.tgz
 fi
-×
-Drag and Drop
-The image will be downloaded by Fatkun
