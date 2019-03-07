@@ -1,5 +1,5 @@
 import app from './app';
-import { SocketUpload } from './socketHandlers/file.sockethandler';
+import { SocketUpload } from './fileHandlers/file.sockethandler';
 import {join} from 'path';
 
 let port = 3000;
@@ -11,7 +11,6 @@ app.io.on('connection', (socket: any) => {
     su.uploadPath = join(__dirname, '../public/files');
     su.thumbPath = join(__dirname, '../public/files/thumbnails');
 })
-
 
 
 app.server.listen(port , ()=> console.log(`server is up ${port}`));
