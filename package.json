@@ -12,6 +12,10 @@
     "prod": "npm run build && npm run start",
     "test-watch": "nodemon  --exec 'mocha ./dist/testing/socket.test.js --timeout 9000'"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zujoio/socket-file-uploader.git"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
