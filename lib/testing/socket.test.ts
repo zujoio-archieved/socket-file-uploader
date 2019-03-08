@@ -1,7 +1,8 @@
 import { connect } from 'socket.io-client';
 import { expect } from 'chai';
-import { readFile, unlink } from 'fs';
+import { readFile, unlink, statSync } from 'fs';
 import {resolve} from 'path';
+import { generateFile } from './fileGenerator'
 
 let socket = null, emit = true;
 let socketUrl = 'http://192.168.0.175:3000/';
@@ -13,8 +14,7 @@ let socketOptions = {
 }
 let fsFile = null;
 
-// let fileName = 'abstract-reasoning-test-3-en.jpg';
-let fileName = 'large-test-file.zip';
+let fileName = 'dummy-file.mp4';
 let filePath = resolve(__dirname, `../../test-feed-files/${fileName}`);
 
 describe('read files', ()=>{
@@ -22,15 +22,20 @@ describe('read files', ()=>{
         socket = connect(socketUrl, socketOptions);
         socket.on('connect', ()=> {
             console.log('conncted to server');
-        })
+        });
         done(null);
     })
 
     it('Should read file', (done) => {
-        readFile(filePath, 'binary', (err, data)=>{
-            fsFile = data;
-            done();
-        })
+        generateFile(14)
+            .then(() => {
+                console.log('File Generated');
+                readFile(filePath, 'binary', (err, data)=>{
+                    fsFile = data;
+                    console.log('File Size', statSync(filePath).size);
+                    done();
+                })
+            }).catch((err) => console.log(err))
     })
 
     it('Should Upload the File',  (done) => {
@@ -69,7 +74,7 @@ describe('read files', ()=>{
             socket.emit('UPLOAD', { name: fileName, data: newFile})
         }
 
-        setTimeout(() => socket.emit('cancel', { files: [fileName, 'nothing.png']}), 2000);
+        setTimeout(() => socket.emit('cancel', { files: [fileName, 'nothing.png']}), 700);
 
         socket.on('cancel-done', (data) => {
             expect(data.count).to.equal(1);

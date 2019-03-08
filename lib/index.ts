@@ -1,3 +1,2 @@
-import { SocketUpload } from './fileHandlers/file.sockethandler';
-
-export default SocketUpload;
+import {SocketUpload} from './fileHandlers/file.sockethandler';
+export = SocketUpload;

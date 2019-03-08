@@ -1,10 +1,11 @@
 {
     "compilerOptions": {
         "module": "commonjs",
+        "declaration": true,
         "moduleResolution": "node",
         "pretty": true,
         "sourceMap": true,
-        "target": "esnext",
+        "target": "es6",
         "outDir": "./dist",
         "baseUrl": "./lib"
     },
