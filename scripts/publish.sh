@@ -47,5 +47,5 @@ if [ $# -ne 0 ]
     git push # verify everthing on cloud before creting tag
     git tag $1
     git push --tags
-    rm -rf $PACKAGE_NAME-*.tgz
+    rm -rf zujo-$PACKAGE_NAME-*.tgz
 fi
