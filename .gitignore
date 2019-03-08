@@ -1,3 +1,5 @@
 node_modules/
 package-lock.json
 lib/testing/feed-files/abstract-reasoning-test-3-en.jpg
+dist/examples/node_modules/
+dist/examples/package-lock.json
