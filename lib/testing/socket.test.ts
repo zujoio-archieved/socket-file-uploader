@@ -18,10 +18,11 @@ let fileName = 'dummy-file.mp4';
 let filePath = resolve(__dirname, `../../test-feed-files/${fileName}`);
 
 describe('read files', ()=>{
+
     beforeEach((done) => {
         socket = connect(socketUrl, socketOptions);
         socket.on('connect', ()=> {
-            console.log('conncted to server');
+            console.log('Connected to server');
         });
         done(null);
     })

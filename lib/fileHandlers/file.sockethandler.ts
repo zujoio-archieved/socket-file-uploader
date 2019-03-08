@@ -8,6 +8,10 @@ class SocketUpload{
     public uploadPath: string ;     /**Path for saving Files */
     public thumbPath: string;       /**Path for saving Thumbnails */
 
+    /**
+     * Initialize SocketUpload
+     * @param socket Socket instance
+     */
     constructor(socket:any){
         this.socket = socket;
 
@@ -27,7 +31,7 @@ class SocketUpload{
                     place = stat.size / 524288;
                 }
             }
-            catch(err){ console.log('New file arrived') }
+            catch(err){  console.log('New file arrived') }
 
             /**Generation of a File Descriptor */
             open(`${this.uploadPath}/${fileName}`, 'a', 0o755, (err, fd) => {
