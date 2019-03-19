@@ -33,6 +33,6 @@
     "mocha": "^6.0.2",
     "path": "^0.12.7",
     "socket.io-client": "^2.2.0",
-    "supertest": "^3.4.2"
+    "supertest": "^4.0.2"
   }
 }
